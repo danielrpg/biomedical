@@ -1,0 +1,190 @@
+# MySQL-Front 5.0  (Build 1.107)
+
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE */;
+/*!40101 SET SQL_MODE='' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES */;
+/*!40103 SET SQL_NOTES='ON' */;
+
+
+# Host: localhost    Database: almacen
+# ------------------------------------------------------
+# Server version 5.1.36-community-log
+
+#
+# Table structure for table alm_cabecera
+#
+
+DROP TABLE IF EXISTS `alm_cabecera`;
+CREATE TABLE `alm_cabecera` (
+  `ALM_CAB_PROD` smallint(6) DEFAULT NULL,
+  `ALM_CAB_NRO_TRAN` int(11) DEFAULT NULL,
+  `ALM_CAB_NRO_PED` smallint(6) DEFAULT NULL,
+  `ALM_CAB_FECHA` date DEFAULT NULL,
+  `ALM_CAB_TIP_TRAN` smallint(6) DEFAULT NULL,
+  `ALM_CAB_SAL_ANT` decimal(10,2) DEFAULT NULL,
+  `ALM_CAB_SAL_DES` decimal(10,2) DEFAULT NULL,
+  `ALM_CAB_EST_ANT` smallint(6) DEFAULT NULL,
+  `ALM_CAB_EST_ACT` smallint(6) DEFAULT NULL,
+  `ALM_CAB_TIP_CAM` decimal(8,3) DEFAULT NULL,
+  `ALM_CAB_FEC_TRAN` date DEFAULT NULL,
+  `ALM_CAB_FEC_VTO` date DEFAULT NULL,
+  `ALM_CAB_FEC_SUS` date DEFAULT NULL,
+  `ALM_CAB_USR_ALTA` char(8) DEFAULT NULL,
+  `ALM_CAB_FCH_HR_ALTA` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `ALM_CAB_USR_BAJA` char(8) DEFAULT NULL,
+  `ALM_CAB_FCH_HR_BAJA` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# Dumping data for table alm_cabecera
+#
+
+
+#
+# Table structure for table alm_det_tran
+#
+
+DROP TABLE IF EXISTS `alm_det_tran`;
+CREATE TABLE `alm_det_tran` (
+  `ALM_DTRA_PROD` smallint(6) DEFAULT NULL,
+  `ALM_DTRA_AGEN` smallint(6) DEFAULT NULL,
+  `ALM_DTRA_NRO_TRAN` int(11) DEFAULT NULL,
+  `ALM_DTRA_NRO_PED` smallint(6) DEFAULT NULL,
+  `ALM_DTRA_FECHA` date DEFAULT NULL,
+  `ALM_DTRA_TIP_TRAN` smallint(6) DEFAULT NULL,
+  `ALM_DTRA_CCON` decimal(6,0) DEFAULT NULL,
+  `ALM_DTRA_DEB_CRE` smallint(6) DEFAULT NULL,
+  `ALM_DTRA_CTA_CBT` char(12) DEFAULT NULL,
+  `ALM_DTRA_IMPO` decimal(14,2) DEFAULT NULL,
+  `ALM_DTRA_IMPO_BS` decimal(14,2) DEFAULT NULL,
+  `ALM_DTRA_FEC_TRAN` date DEFAULT NULL,
+  `ALM_DTRA_FEC_INI2` date DEFAULT NULL,
+  `ALM_DTRA_FEC_FIN` date DEFAULT NULL,
+  `ALM_DTRA_VIA` smallint(6) DEFAULT NULL,
+  `ALM_DTRA_TIP_CAM` decimal(8,3) DEFAULT NULL,
+  `ALM_DTRA_USR_ALTA` char(8) DEFAULT NULL,
+  `ALM_DTRA_FCH_HR_ALTA` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `ALM_DTRA_USR_BAJA` char(8) DEFAULT NULL,
+  `ALM_DTRA_FCH_HR_BAJA` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# Dumping data for table alm_det_tran
+#
+
+
+#
+# Table structure for table alm_pedido
+#
+
+DROP TABLE IF EXISTS `alm_pedido`;
+CREATE TABLE `alm_pedido` (
+  `alm_ped_id` smallint(6) NOT NULL DEFAULT '0',
+  `alm_ped_tipo` smallint(6) DEFAULT NULL,
+  `alm_ped_prod` char(60) DEFAULT NULL,
+  `alm_ped_func` char(8) DEFAULT NULL,
+  `alm_ped_fec_p` char(60) DEFAULT NULL,
+  `alm_ped_fec_r` char(60) DEFAULT NULL,
+  `alm_ped_cantidad` char(25) DEFAULT NULL,
+  `alm_ped_descripcion` char(100) DEFAULT NULL,
+  `alm_ped_estado` char(25) DEFAULT NULL,
+  `alm_ped_usr_alta` char(8) DEFAULT NULL,
+  `alm_ped_fch_hr_alta` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `alm_ped_usr_baja` char(8) DEFAULT NULL,
+  `alm_ped_fch_hr_baja` datetime DEFAULT NULL,
+  PRIMARY KEY (`alm_ped_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+#
+# Dumping data for table alm_pedido
+#
+
+
+#
+# Table structure for table alm_producto
+#
+
+DROP TABLE IF EXISTS `alm_producto`;
+CREATE TABLE `alm_producto` (
+  `alm_prod_id` smallint(6) NOT NULL DEFAULT '0',
+  `alm_prod_tipo` smallint(6) DEFAULT NULL,
+  `alm_prod_prov` smallint(6) DEFAULT NULL,
+  `alm_prod_nombre` char(60) DEFAULT NULL,
+  `alm_prod_descripcion` char(60) DEFAULT NULL,
+  `alm_prod_marca` char(25) DEFAULT NULL,
+  `alm_prod_serie` char(25) DEFAULT NULL,
+  `alm_prod_altenativo` char(25) DEFAULT NULL,
+  `alm_prod_unidad` smallint(6) DEFAULT NULL,
+  `alm_prod_stock` decimal(10,2) DEFAULT NULL,
+  `alm_prod_prec_compra` decimal(10,2) DEFAULT NULL,
+  `alm_prod_prec_venta` decimal(10,2) DEFAULT NULL,
+  `alm_prod_porcentaje` decimal(10,2) DEFAULT NULL,
+  `alm_prod_valor_ctb` decimal(10,2) DEFAULT NULL,
+  `alm_prod_estado` smallint(6) DEFAULT NULL,
+  `alm_prod_usr_alta` char(8) DEFAULT NULL,
+  `alm_prod_fch_hr_alta` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `alm_prod_usr_baja` char(8) DEFAULT NULL,
+  `alm_prod_fch_hr_baja` datetime DEFAULT NULL,
+  PRIMARY KEY (`alm_prod_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+#
+# Dumping data for table alm_producto
+#
+
+
+#
+# Table structure for table alm_proveedor
+#
+
+DROP TABLE IF EXISTS `alm_proveedor`;
+CREATE TABLE `alm_proveedor` (
+  `alm_prov_id` smallint(5) NOT NULL DEFAULT '0',
+  `alm_prov_tipo` smallint(6) DEFAULT NULL,
+  `alm_prov_nombre` char(60) DEFAULT NULL,
+  `alm_prov_contacto` char(60) DEFAULT NULL,
+  `alm_prov_continente` smallint(6) DEFAULT NULL,
+  `alm_prov_pais` char(25) DEFAULT NULL,
+  `alm_prov_ciudad` char(25) DEFAULT NULL,
+  `alm_prov_direccion` char(60) DEFAULT NULL,
+  `alm_prov_email` char(25) DEFAULT NULL,
+  `alm_prov_telefono` int(15) DEFAULT NULL,
+  `alm_prov_celular` int(15) DEFAULT NULL,
+  `alm_prov_estado` smallint(6) DEFAULT NULL,
+  `alm_prov_usr_alta` char(8) DEFAULT NULL,
+  `alm_prov_fch_hr_alta` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `alm_prov_usr_baja` char(8) DEFAULT NULL,
+  `alm_prov_fch_hr_baja` datetime DEFAULT NULL,
+  PRIMARY KEY (`alm_prov_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+#
+# Dumping data for table alm_proveedor
+#
+
+
+#
+# Table structure for table alm_via_cta
+#
+
+DROP TABLE IF EXISTS `alm_via_cta`;
+CREATE TABLE `alm_via_cta` (
+  `ALM_VIA_CTA_GRP` smallint(6) NOT NULL,
+  `ALM_VIA_TIP_OP` smallint(6) DEFAULT NULL,
+  `ALM_VIA_MON` smallint(6) DEFAULT NULL,
+  `ALM_VIA_CTA_NRO` smallint(6) DEFAULT NULL,
+  `ALM_VIA_CTA_COD` smallint(6) DEFAULT NULL,
+  `ALM_VIA_CTA_CTB` char(12) DEFAULT NULL,
+  `ALM_VIA_CTA_USR_ALTA` char(8) DEFAULT NULL,
+  `ALM_VIA_CTA_CHR_FCH_ALTA` datetime DEFAULT NULL,
+  `ALM_VIA_CTA_USR_BAJA` char(8) DEFAULT NULL,
+  `ALM_VIA_CTA_FCH_BAJA` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# Dumping data for table alm_via_cta
+#
+
+
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

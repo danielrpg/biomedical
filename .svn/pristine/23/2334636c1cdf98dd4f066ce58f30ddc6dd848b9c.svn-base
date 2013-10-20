@@ -1,0 +1,36 @@
+/*
+Navicat MySQL Data Transfer
+
+Source Server         : localhost
+Source Server Version : 50508
+Source Host           : localhost:3306
+Source Database       : noticias
+
+Target Server Type    : MYSQL
+Target Server Version : 50508
+File Encoding         : 65001
+
+Date: 2013-09-18 13:33:07
+*/
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `personas`
+-- ----------------------------
+DROP TABLE IF EXISTS `personas`;
+CREATE TABLE `personas` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) DEFAULT NULL,
+  `apellido_pat` varchar(50) DEFAULT NULL,
+  `apellido_mat` varchar(50) DEFAULT NULL,
+  `correo` varchar(100) DEFAULT NULL,
+  `twitter` varchar(50) DEFAULT NULL,
+  `id_tipo` int(10) DEFAULT NULL,
+  `facebook` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of personas
+-- ----------------------------
