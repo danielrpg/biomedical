@@ -31,7 +31,11 @@ function Home(){
      $("#txt_vent_cliente_proforma_publ").keyup(function(){
         new Home().buscarClientePubl($('#txt_vent_cliente_proforma_publ').val());
      });
-
+     //  Este es el evento que activa el autocompletado
+     $('#txt_campo_palabra_buscar_accesorio').keyup(function(event) {
+       /* Act on the event */
+        new Home().autoCompletoAccesorios($(this).val());
+     });
      new Home().enviarFormularioNuevaCotizacionPriv();
      new Home().enviarFormularioModificarCotizacionPriv();
      new Home().enviarFormularioNuevaCotizacionPubl();
@@ -227,15 +231,15 @@ function Home(){
             //console.log(resultado);
             var codigo_unico=resultado[0].codigo_unico;
             $('#tpl_vent_form_nuevo_cot_det_priv').empty();
-                var tabla_cabecera = '<table aling="center" id="tb_vent_det_cab_cotizaciones_priv" class="table_usuario">';
+                var tabla_cabecera = '<table aling="center" id="tb_vent_det_cab_cotizaciones_priv" >';
                 $.each(resultado, function(index, value){      
-                  tabla_cabecera = tabla_cabecera+'<h3><img src="../img/my documents_32x32.png" align="absmiddle"> COTIZACION PRIVADA</h3><hr style="border:1px dashed;">';
-                  tabla_cabecera = tabla_cabecera +'<tr><th>CODIGO PROF.:</th><td>'+value.vent_prof_cab_cod_prof+'</td><th>FORMA DE PAGO:</th><td>'+value.nom_pago+'</td></tr>';
-                  tabla_cabecera = tabla_cabecera +'<tr><th>CODIGO CLIENTE:</th><td>'+value.cod_cliente+'</td><th>CLIENTE:</th><td>'+value.nombre_cliente+'&nbsp;'+value.ap_pat_cliente+'&nbsp;'+value.ap_mat_cliente+'</td></tr>';
-                  tabla_cabecera = tabla_cabecera +'<tr><th>CODIGO OPE.:</th><td>'+value.cod_operador+'</td><th>OPERADOR:</th><td>'+value.nom_op+'&nbsp;'+value.ap_part_op+'&nbsp;'+value.ap_mat_op+'</td>';
-                  tabla_cabecera = tabla_cabecera +'<tr><th>COTIZACION A NOMBRE:</th><td>'+value.vent_prof_cab_nom_cotizado+'</td><th>REGION:</th><td>'+value.id_region_op+'</td>';
+                  tabla_cabecera = tabla_cabecera+'<h3><img src="../img/my documents_32x32.png" align="absmiddle"> COTIZACION PRIVADA - '+value.vent_prof_cab_cod_prof+'</h3><hr style="border:1px dashed;">';
+                  tabla_cabecera = tabla_cabecera +'<tr><td>CODIGO PROF.:</td><td>'+value.vent_prof_cab_cod_prof+'</td><td>FORMA DE PAGO:</td><td>'+value.nom_pago+'</td></tr>';
+                  tabla_cabecera = tabla_cabecera +'<tr><td>CODIGO CLIENTE:</td><td>'+value.cod_cliente+'</td><td>CLIENTE:</td><td>'+value.nombre_cliente+'&nbsp;'+value.ap_pat_cliente+'&nbsp;'+value.ap_mat_cliente+'</td></tr>';
+                  tabla_cabecera = tabla_cabecera +'<tr><td>CODIGO OPE.:</td><td>'+value.cod_operador+'</td><td>OPERADOR:</td><td>'+value.nom_op+'&nbsp;'+value.ap_part_op+'&nbsp;'+value.ap_mat_op+'</td>';
+                  tabla_cabecera = tabla_cabecera +'<tr><td>COTIZACION A NOMBRE:</td><td>'+value.vent_prof_cab_nom_cotizado+'</td><td>REGION:</td><td>'+value.id_region_op+'</td>';
                   //tabla_cabecera = tabla_cabecera +'<tr><th>Tipo de Compra:</th><td>'+value.nom_compra+'</td><th>Forma de Pago:</th><td>'+value.nom_pago+'</td></tr>';
-                  tabla_cabecera = tabla_cabecera +'<tr><th>FEHCA:</th><td>'+value.vent_prof_cab_fech_cot+'</td><th>FECHA ENTREGA:</th><td>'+value.vent_prof_cab_fech_entrega_cot+'</td></tr>';
+                  tabla_cabecera = tabla_cabecera +'<tr><th>FECHA:</th><td>'+value.vent_prof_cab_fech_cot+'</td><th>FECHA ENTREGA:</th><td>'+value.vent_prof_cab_fech_entrega_cot+'</td></tr>';
                 });
                 tabla_cabecera = tabla_cabecera+'</table>';
                 tabla_cabecera = tabla_cabecera+'<h3><img src="../img/my documents_32x32.png" align="absmiddle"> REGISTRAR DETALLE</h3><hr style="border:1px dashed;">';
@@ -298,10 +302,11 @@ function Home(){
                     $('#tpl_vent_form_nuevo_cot_det_priv').append(tabla_cabecera);
 
                     $('#tpl_vent_form_nuevo_cot_det_priv').dialog({
-                      width: 1300,
+                      width: 1350,
                       height : 600,
                       modal: true,
-                      draggable : false
+                      draggable : true,
+                      closeOnEscape: false
                     });
                    }
                 });
@@ -809,19 +814,19 @@ function Home(){
           var codigo_unico=resultado[0].codigo_unico;
           //console.log(codigo_unico);
           $('#tpl_vent_form_nuevo_cot_det_priv').empty();
-              var tabla_cabecera = '<table aling="center" id="tb_vent_det_cab_cotizaciones_priv" class="table_usuario">';
+              var tabla_cabecera = '<table aling="center" id="tb_vent_det_cab_cotizaciones_priv" >';
               $.each(resultado, function(index, value){      
-                tabla_cabecera = tabla_cabecera+'<h3><img src="../img/my documents_32x32.png" align="absmiddle"> COTIZACION PRIVADA<input type="hidden" id="text_codigo_unico_prof_vent_09" name="text_codigo_unico_prof_vent_09"></h3><hr style="border:1px dashed;">';
-                tabla_cabecera = tabla_cabecera +'<tr><th>CODIGO PROF.:</th><td>'+value.vent_prof_cab_cod_prof+'</td><th>FORMA PAGO:</th><td>'+value.nom_pago+'</td></tr>';
-                tabla_cabecera = tabla_cabecera +'<tr><th>CODIGO CLIENTE:</th><td>'+value.cod_cliente+'</td><th>CLIENTE:</th><td>'+value.nombre_cliente+'&nbsp;'+value.ap_pat_cliente+'&nbsp;'+value.ap_mat_cliente+'</td></tr>';
-                tabla_cabecera = tabla_cabecera +'<tr><th>CODIGO OP.:</th><td>'+value.cod_operador+'</td><th>NOMBRE OP.:</th><td>'+value.nom_op+'&nbsp;'+value.ap_part_op+'&nbsp;'+value.ap_mat_op+'</td>';
-                tabla_cabecera = tabla_cabecera +'<tr><th>COTIZADO A NOMBRE:</th><td>'+value.vent_prof_cab_nom_cotizado+'</td><th>REGION:</th><td>'+value.id_region_op+'</td>';
-                //tabla_cabecera = tabla_cabecera +'<tr><th>Tipo de Compra:</th><td>'+value.nom_compra+'</td><th>Forma de Pago:</th><td>'+value.nom_pago+'</td></tr>';
-                tabla_cabecera = tabla_cabecera +'<tr><th>FECHA COT.:</th><td>'+value.vent_prof_cab_fech_cot+'</td><th>FEHCA ENTREGA:</th><td>'+value.vent_prof_cab_fech_entrega_cot+'</td></tr>';
+                tabla_cabecera = tabla_cabecera+'<h3><img src="../img/my documents_32x32.png" align="absmiddle"> COTIZACION PRIVADA - '+value.vent_prof_cab_cod_prof+'<input type="hidden" id="text_codigo_unico_prof_vent_09" name="text_codigo_unico_prof_vent_09"></h3><hr style="border:1px dashed;">';
+                tabla_cabecera = tabla_cabecera +'<tr><td><strong>CODIGO COTIZACION:</strong></td><td>'+value.vent_prof_cab_cod_prof+'</td><td></td><td><strong>FORMA PAGO:</strong></td><td>'+value.nom_pago+'</td></tr>';
+                tabla_cabecera = tabla_cabecera +'<tr><td><strong>CODIGO CLIENTE:</strong></td><td>'+value.cod_cliente+'</td><td></td><td><strong>CLIENTE:</strong></td><td>'+value.nombre_cliente+'&nbsp;'+value.ap_pat_cliente+'&nbsp;'+value.ap_mat_cliente+'</td></tr>';
+                tabla_cabecera = tabla_cabecera +'<tr><td><strong>CODIGO OPERADOR:</strong></td><td>'+value.cod_operador+'</td><td></td><td><strong>NOMBRE OPERADOR:</strong></td><td>'+value.nom_op+'&nbsp;'+value.ap_part_op+'&nbsp;'+value.ap_mat_op+'</td>';
+                tabla_cabecera = tabla_cabecera +'<tr><td><strong>COTIZADO A NOMBRE:</strong></td><td>'+value.vent_prof_cab_nom_cotizado+'</td><td></td><td><strong>REGION:</strong></td><td>'+value.id_region_op+'</td>';
+                //tabla_cabecera = tabla_cabecera +'<tr><td>Tipo de Compra:</td><td>'+value.nom_compra+'</td><td>Forma de Pago:</td><td>'+value.nom_pago+'</td></tr>';
+                tabla_cabecera = tabla_cabecera +'<tr><td><strong>FECHA COTIZACION:</strong></td><td>'+value.vent_prof_cab_fech_cot+'</td><td></td><td><strong>FECHA ENTREGA:</strong></td><td>'+value.vent_prof_cab_fech_entrega_cot+'</td></tr>';
               });
              tabla_cabecera = tabla_cabecera+'</table>';
              tabla_cabecera = tabla_cabecera+'<h3><img src="../img/my documents_32x32.png" align="absmiddle"> REGISTRAR DETALLE</h3><hr style="border:1px dashed;">';
-             tabla_cabecera = tabla_cabecera+'<br><input type="button" value="Agregar Producto" class="btn_form" onClick="new Home().formularioNuevoProductoPriv(\''+codigo_unico+'\');"><br>';
+             tabla_cabecera = tabla_cabecera+'<br><input type="button" value="AGREGAR PRODUCTO" class="btn_form" onClick="new Home().formularioNuevoProductoPriv(\''+codigo_unico+'\');"><br>';
              tabla_cabecera = tabla_cabecera+'<div id="id_div_detalle_cotizacion_000100"><table aling="center" id="tb_vent_det_cotizaciones_priv" class="table_usuario">';
              tabla_cabecera = tabla_cabecera+'<tr><th>TIPO</th><th>PRODUCTO</th><th>CANTIDAD</th><th>MARCA</th><th>PROCEDENCIA</th><th>TIEMPO ESPERA</th><th>CATALAGO ESP.</th><th>ESP. TECNICA</th><th>CONF. DESEADA</th><th>ACCESORIOS</th><th>SERVICIO NECESARIO</th>';
              tabla_cabecera = tabla_cabecera+'</table></div>';
@@ -1063,13 +1068,19 @@ function Home(){
         util.mostrarMensajeAlerta(0, 'La venta no puede estar vacio', 'Validacion Venta');
       }else if($('#cantidad_prof_nueva_text').val() == "" || $('#cantidad_prof_nueva_text').val() == "0"){
         util.mostrarMensajeAlerta(0, 'La venta no puede ser cero', 'Validacion Venta');
-      }else if(($('#venta_nueva_preventa_prod').val() >= $('#prec_min_det_prod_01').val()) && ($('#venta_nueva_preventa_prod').val() <= $('#prec_max_det_prod_01').val()) ){
-        dataString = $(this).serialize();
-        $.getJSON('index.php?action=cotizaciones&tp=updatePrecioCantProd', {id_unico:$('#codigo_unico_preventa_prf').val(),precio_nuevo:$('#venta_nueva_preventa_prod').val(),cantidad:$('#cantidad_prof_nueva_text').val()}, function(data, textStatus, xhr) {
-          /*optional stuff to do after success */
-          $("#dialog-confirm-cot").dialog('close');
-          new Home().listarDetalleCotizacionPrivada02($('#codigo_prof_cabecera0021').val());
-        });
+      }else if(parseFloat($.trim($('#venta_nueva_preventa_prod').val())) >= parseFloat($.trim($('#prec_min_det_prod_01').val()))){
+        if(parseFloat($.trim($('#venta_nueva_preventa_prod').val())) <= parseFloat($.trim($('#prec_max_det_prod_01').val()))){
+          dataString = $(this).serialize();
+          $.getJSON('index.php?action=cotizaciones&tp=updatePrecioCantProd', {id_unico:$('#codigo_unico_preventa_prf').val(),precio_nuevo:$('#venta_nueva_preventa_prod').val(),cantidad:$('#cantidad_prof_nueva_text').val()}, function(data, textStatus, xhr) {
+            /*optional stuff to do after success */
+            $("#dialog-confirm-cot").dialog('close');
+            new Home().listarDetalleCotizacionPrivada02($('#codigo_prof_cabecera0021').val());
+          });
+        }else{
+          util.mostrarMensajeAlerta(0, 'El precio no esta permitido,  es mayor que el precio maximo permitido', 'Precio de Venta');
+        }
+      }else{
+        util.mostrarMensajeAlerta(0, 'El precio no esta permitido,  es menor que el precio minimo permitido', 'Precio de Venta');
       }
       evt.preventDefault();
     });
@@ -1157,7 +1168,7 @@ function Home(){
       success: function(resultado){
         $("#txt_vent_cliente_proforma").autocomplete({
               source: resultado,/* este es el script que realiza la busqueda */
-              minLength: 1, /* le decimos que espere hasta que haya 2 caracteres escritos */
+              minLength: 0, /* le decimos que espere hasta que haya 2 caracteres escritos */
               select: new Home().clienteSeleccionadoPriv /* esta es la rutina que extrae la informacion del producto seleccionado */
               //focus: new Proyecto().proyectoEnfocado /* esta es la rutina que muestra del producto marcado */
           });
@@ -1331,15 +1342,19 @@ function Home(){
    */
 
   this.formularioNuevoProductoPriv = function(cod_cabecera){
+    var util = new Utilitarios();
+    util.startPreloader();
     new Home().listarProductosParaStock();
     new Home().eventoTecladoConsultarStock();
     $('#imp_codigo_prof_venta_0089').val(cod_cabecera);
     $('#tpl_vent_form_nuevo_prod_cotizacion_priv').dialog({
-        width: 700,
+        width: 800,
         height : 600,
         modal: true,
-        draggable : true
+        draggable : true,
+        closeOnEscape :  false
     });
+    util.stopPreloader();
   }
   /** Metodo que se ejuta cuando se hace la buqueda por palabra **/
   this.buscarProductoXPalabraStock = function(){
@@ -1357,6 +1372,10 @@ function Home(){
     //console.log('Cargando...');
     $('#txt_campo_palabra_buscar').keyup(function(evt){
       $.getJSON('?action=cotizaciones&tp=buscarProductosStock&producto='+$(this).val(), function(result){
+        $('#div_vent_lista_productos_detalle').empty();
+        //$('#div_vent_lista_productos_detalle').empty();
+        $('#div_vent_lista_productos_detalle').append('<center><img src="../img/ajax-loader.gif"></center>').hide().fadeIn(500);
+       // new Home().listarProductosXSource(resultado);
         $('#txt_campo_palabra_buscar').autocomplete({
           source:result,
           minChars:1,
@@ -1836,7 +1855,9 @@ function Home(){
    * Metodo que permite añadir el producto en la lista de la solicitud
    */
   this.anadirProductoPropuesta = function(codigo_producto_cab, codigo_producto_det, codido_prof_unico){
-       $('#form_vent_nuevo_item_cabecera_formulario')[0].reset();
+      var util = new Utilitarios();
+      util.startPreloader();
+      $('#form_vent_nuevo_item_cabecera_formulario')[0].reset();
       $.getJSON('?action=cotizaciones&tp=getProductoInformation&codigo_cab='+codigo_producto_cab+'&codigo_det='+codigo_producto_det, function(result){
           $('#txt_vent_tiempo_espera').numeric();
           $('#div_vent_proveedor_vent').empty().append(result.apc.alm_prod_cab_nombre);
@@ -1879,12 +1900,223 @@ function Home(){
         //});
       });
       $('#tpl_vent_form_nuevo_item_cabecera').dialog({
-          width: 750,
-          height : 600,
+          width: 1300,
+          height : 550,
           modal: true,
-          draggable : false
-      });      
+          draggable : false,
+          closeOnEscape :  false
+      });
+      util.stopPreloader();      
   }
+
+  /***  Este es el metodo del detalle de los accesorios ************************************/
+
+  this.nuevoAccesorioProducto = function(){
+    var util = new Utilitarios();
+    util.startPreloader();
+    $.getJSON('?action=cotizaciones&tp=listaAccesoriosProducto', function(result){
+       new Home().generarTableDatos(result);
+    });
+    $('#tpl_vent_consulta_lista_accesorios').dialog({
+      width : 1000,
+      height : 500,
+      draggable : true,
+      closeOnEscape : false,
+      modal: true
+    });
+    
+  }
+  this.generarTableDatos = function (result)
+  {
+    var util = new Utilitarios();
+    var stringTable = '';
+    $.each(result, function(index, producto) {
+          stringTable += '<div id="div_detalle_producto_consulta">';
+          if(producto.alm_prod_cab_img != ""){
+            stringTable +='<div id="div_img_producto_consulta"><img src="trebol/'+producto.alm_prod_cab_img+'" width="150" height="100"></div>';
+          }else{
+            stringTable = stringTable+'<div id="div_img_producto_consulta"><img src="../images/producto/img/anon.jpg" width="150" height="100"></div>';
+          }
+          stringTable +='<div id="div_producto_consulta_detalle_producto"><h4>'+producto.alm_prod_cab_nombre+'</h4> ';
+          stringTable +='<label><strong>CODIGO REF.:</strong></label> '+producto.alm_prod_cab_cod_ref;
+          stringTable +=' <label><strong>NUEVO CODIGO:</strong></label> '+producto.alm_prod_cab_codigo;
+          if(producto.alam_prod_det_marca == null)
+          {
+            stringTable +=' <label><strong>MARCA:</strong></label> No Tiene Marca';  
+          }else{
+            stringTable +=' <label><strong>MARCA:</strong></label> '+producto.alm_prod_det_marca;
+          }
+          
+          stringTable +=' <label><strong>PROVEEDOR:</strong></label> '+producto.alm_prod_cab_nom_prov;
+          stringTable +='<br><label><strong>CANTIDAD:</strong></label> '+producto.alm_prod_det_cantidad+' '+producto.alm_prod_cab_presentacion;
+          stringTable +=' <label><strong>P. VENTA:</strong></label> '+producto.alm_prod_det_prec_venta+' '+producto.alm_prod_cab_sigla;
+          stringTable +=' <label><strong>P. VENTA MIN:</strong></label> '+producto.alm_prod_det_prec_min_venta+' '+producto.alm_prod_cab_sigla;
+          stringTable +='<br><label><strong>P. VENTA MAX:</strong></label> '+producto.alm_prod_det_prec_max_venta+' '+producto.alm_prod_cab_sigla;
+          stringTable +=' <label><strong>ORIGEN:</strong></label> '+producto.alm_prod_cab_suc_nombre;
+          stringTable +='<br><input type="button" class="btn_form" onClick="new Home().anadirAccesorio(\''+producto.alm_prod_cab_id_unico_prod+'\', \''+producto.alm_prod_det_id_unico+'\',\''+$('#imp_codigo_prof_venta_0089').val()+'\');" value="AGREGAR ACCESORIO">';
+          stringTable +='</div></div>';
+    });
+    $('#div_vent_lista_productos_detalle_accesorios').empty();
+    $('#div_vent_lista_productos_detalle_accesorios').append(stringTable);
+    util.stopPreloader(); 
+  }
+  
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  this.autoCompletoAccesorios = function(palabra)
+  {
+    //alert(palabra); ------------------------------------------------------------------------------------->>>>>>>>>>>>
+    $.getJSON('?action=cotizaciones&tp=buscarProductosStock&producto='+$('#txt_campo_palabra_buscar_accesorio').val(), function(result){
+        $('#div_vent_lista_productos_detalle_accesorios').empty();
+        //$('#div_vent_lista_productos_detalle').empty();
+        $('#div_vent_lista_productos_detalle_accesorios').append('<center><img src="../img/ajax-loader.gif"></center>').hide().fadeIn(500);
+       // new Home().listarProductosXSource(resultado);
+        $('#txt_campo_palabra_buscar_accesorio').autocomplete({
+          source:result,
+          minChars:1,
+          minLength: 0,
+          select: new Home().productoSeleccionadoAccesorio, /* esta es la rutina que extrae la informacion del producto seleccionado */
+          focus: new Home().productoEnfocadoAcccesorio
+        });
+    });
+  }
+
+///------------------------------------------------------------------------------------------------------------------------------------->
+
+  /** Metodo que permite ejecutar el ajax que devuelve el producto seleccionado **/
+  this.productoSeleccionadoAccesorio = function(evt, ui){
+    $.ajax({
+      url:'index.php',
+      dataType: 'json',
+      type: 'GET',
+      data : { 
+        action : 'cotizaciones',
+        tp : 'productoEnfocado',
+        id_producto_unico: ui.item.id
+      },
+      beforeSend : function(){
+        $('#div_vent_lista_productos_detalle_accesorios').empty();
+        $('#div_vent_lista_productos_detalle_accesorios').append('<center><img src="../img/ajax-loader.gif"></center>').hide().fadeIn(500);
+      },
+      success: function(resultado){
+        $('#div_vent_lista_productos_detalle_accesorios').empty();
+        new Home().generarTableDatos(resultado);
+      },
+      error: function(resultado){
+      }
+    });
+  }
+
+  /** Metodo cuando se enfoca el producto para que devuelve el producto **/
+  this.productoEnfocadoAcccesorio = function(evt, ui){
+    $.ajax({
+      url:'index.php',
+      dataType: 'json',
+      type: 'GET',
+      data : { 
+        action : 'cotizaciones',
+        tp : 'productoEnfocado',
+        id_producto_unico: ui.item.id
+      },
+      beforeSend : function(){
+        $('#div_vent_lista_productos_detalle_accesorios').empty();
+        $('#div_vent_lista_productos_detalle_accesorios').append('<center><img src="../img/ajax-loader.gif"></center>').hide().fadeIn(500);
+      },
+      success: function(resultado){
+        $('#div_vent_lista_productos_detalle_accesorios').empty();
+        new Home().generarTableDatos(resultado);
+      },
+      error: function(resultado){
+      }
+    });
+  }
+
+ this.anadirAccesorio = function(codigo_producto_cab, codigo_producto_det, codigo_unico_cotizacion)
+ {
+    ///--------------------------------------------------------------------------------------------------------->
+    $('#form_vent_nuevo_item_cabecera_formulario_accesorio')[0].reset();
+    $.getJSON('?action=cotizaciones&tp=getProductoInformation&codigo_cab='+codigo_producto_cab+'&codigo_det='+codigo_producto_det, function(result){
+        $('#div_vent_proveedor_vent_accesorio').empty().append(result[0].alm_prod_cab_prov_nombre);
+        $('#id_codigo_proveedor_accesorio').val(result.apc.alm_prod_cab_prov);
+        $('#div_vent_codigo_unico_producto_item_accesorio').empty().append(result.apc.alm_prod_cab_codigo);
+        $('#txt_vent_codigo_unico_accesorio').val(codigo_producto_det);
+        $('#id_codigo_cabecera_prof_venta_prod_accesorio').val(codigo_producto_cab);
+       // console.log(result.apd.alm_prod_det_cantidad);
+        if(result.apd.alm_prod_det_cantidad > 0){
+          $('#div_vent_estado_producto_dispo_accesorio').empty().append("Disponible");  
+        }else{
+          $('#div_vent_estado_producto_dispo_accesorio').empty().append("Agotado");  
+        }
+        $('#div_marca_prod_form_item_accesorio').val(result.apd.alm_prod_det_marca);
+        $('#txt_vent_item_cant_prod_accesorio').val(result.apd.alm_prod_det_cantidad);
+        $('#div_vent_precio_vent_min_accesorio').val(result.apd.alm_prod_det_prec_min_venta);
+        $('#div_vent_precio_vent_max_accesorio').val(result.apd.alm_prod_det_prec_max_venta);
+    });
+    new Home().procesarFormularioAccesorioNuevo();
+    $('#tpl_vent_form_nuevo_item_cabecera_accesorio').dialog({
+      width : 1000,
+      height : 350,
+      draggable : true,
+      closeOnEscape : false,
+      modal: true
+    });
+ }
+
+ /// Close dialog
+ this.closeDialogoAccesorio = function()
+ {
+    $('#tpl_vent_form_nuevo_item_cabecera_accesorio').dialog('close');
+ }
+ 
+ /// Este es el mnetodo que permite procesar el formulario
+ this.procesarFormularioAccesorioNuevo = function()
+ {
+    var util = new Utilitarios();
+    $('#form_vent_nuevo_item_cabecera_formulario_accesorio').on('submit', function(evt){
+      
+      if($('#txt_vent_precio_venta_form_item_accesorio').val() === ""){
+        util.mostrarMensajeAlerta(0, 'El precio no puede ser vacio', 'Precio de Venta');
+      }else{
+        util.startPreloader();
+        if(parseFloat($.trim($('#txt_vent_precio_venta_form_item_accesorio').val())) <= parseFloat($.trim($('#div_vent_precio_vent_max_accesorio').val()))){
+          if(parseFloat($.trim($('#txt_vent_precio_venta_form_item_accesorio').val())) > parseFloat($.trim($('#div_vent_precio_vent_min_accesorio').val()))){
+            //---------------------------------------------------------------------------------------------------------------------------------------------------------
+            dataString = $(this).serialize();
+            $.post('index.php?action=cotizaciones&tp=registrarNuevaProductoAccesorio', {data: dataString}, function(res) {
+              /*optional stuff to do after success */
+              if(res.completo){
+                console.log('Prueba------->');
+              }
+            });
+           /* $.ajax({
+             url:'index.php?action=cotizaciones&tp=registrarNuevaProducto',
+             type:'POST',
+             dataType : 'json',
+             data:dataString,
+             success:function(res){
+               //console.log(res);
+               if(res.completo){
+
+                 $('#id_div_detalle_cotizacion_000100').empty();
+                 new Home().listarDetalleCotizacionPrivada($('#id_cab_prof_venta_codigo_unico').val());   
+               }
+             }
+           });*/
+          }else{
+            util.mostrarMensajeAlerta(0, 'Precio de venta no puede ser menor', 'Precio de venta');
+          }
+        }else{
+          util.mostrarMensajeAlerta(0, 'Precio de venta no puede exeder el maximo', 'Precio de venta');
+        }
+        util.stopPreloader();
+      }
+      evt.preventDefault();
+    });
+ }
+
+
+ ////////////////////////////////////    FINAL ////////////////////////////////////////////////////////////////////
+
   /** Este es el metodo que maneja el formularo de nuevo item cabecera formulario ==========================================================================**/
   this.enviarFormularioNuevoItemDetalleProducto = function(){
     var util = new Utilitarios();
@@ -1900,23 +2132,33 @@ function Home(){
       }else if($.trim($('#txt_vent_tiempo_espera').val()) == ""){
         util.mostrarMensajeAlerta(0, 'El tiempo de espera no puede ser vacio', 'Precio de venta');
       }else{
-       if(($.trim($('#txt_vent_precio_venta_form_item').val()) <= $('#div_vent_precio_vent_max').val()) && ($.trim($('#txt_vent_precio_venta_form_item').val()) > $('#div_vent_precio_vent_min').val())){
-         dataString = $(this).serialize();
-         $.ajax({
-           url:'index.php?action=cotizaciones&tp=registrarNuevaProducto',
-           type:'POST',
-           dataType : 'json',
-           data:dataString,
-           success:function(res){
-             //console.log(res);
-             if(res.completo){
-               $('#id_div_detalle_cotizacion_000100').empty();
-               new Home().listarDetalleCotizacionPrivada($('#id_cab_prof_venta_codigo_unico').val());   
+       /* console.log($('#txt_vent_precio_venta_form_item').val());
+        console.log($('#div_vent_precio_vent_max').val());
+        console.log($('#div_vent_precio_vent_min').val());*/
+              //      100                                 <=                  110                                                            100                          >                       90                                    
+       if(parseFloat($.trim($('#txt_vent_precio_venta_form_item').val())) <= parseFloat($.trim($('#div_vent_precio_vent_max').val()))){
+        //                 100                                                 90
+        if(parseFloat($.trim($('#txt_vent_precio_venta_form_item').val())) > parseFloat($.trim($('#div_vent_precio_vent_min').val()))){
+           dataString = $(this).serialize();
+           $.ajax({
+             url:'index.php?action=cotizaciones&tp=registrarNuevaProducto',
+             type:'POST',
+             dataType : 'json',
+             data:dataString,
+             success:function(res){
+               //console.log(res);
+               if(res.completo){
+
+                 $('#id_div_detalle_cotizacion_000100').empty();
+                 new Home().listarDetalleCotizacionPrivada($('#id_cab_prof_venta_codigo_unico').val());   
+               }
              }
-           }
-         });
+           });
+         }else{
+          util.mostrarMensajeAlerta(0, 'El precio no esta permitido,  es menor que el precio permitido', 'Precio de Venta');
+         }
        }else{
-         util.mostrarMensajeAlerta(0, 'El precio no esta permitido', 'Precio de Venta');
+         util.mostrarMensajeAlerta(0, 'El precio no esta permitido, es mayor que el precio maximo permitido', 'Precio de Venta');
        }
       }
       evt.preventDefault();
@@ -2252,6 +2494,8 @@ function Home(){
 
 
   }
+  
+
 
   
 }

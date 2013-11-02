@@ -211,7 +211,9 @@ class HomeView {
         $form_nuevo_item_tpl = file_get_contents('app/site/cotizacion_tpl/nuevo_prod_item_detalle_cotizacion_tpl.html');
         $form_dialog_tpl = file_get_contents('app/site/cotizacion_tpl/dialog_confirm_cot_tpl.html');
         $form_dialog_confirm = file_get_contents('app/site/cotizacion_tpl/dialogo_confirm.html');
-        $template = str_replace('{dialog_form}', $form_dialog_confirm.$form_nuevo_item_tpl.$form_cotizacion_priv.$form_det_cot_priv.$form_prod_det_cot_priv.$form_modif_cotizacion.$form_cotizacion_publ.$form_cliente_publ.$form_cliente_priv.$form_modif_cotizacion_publ.$form_dialog_tpl, $template);
+        $form_dialog_consulta_accesorio = file_get_contents('app/site/cotizacion_tpl/consulta_item_lista_accesorios_tpl.html');
+        $form_dialogo_anadir_accesorio = file_get_contents('app/site/cotizacion_tpl/nuevo_prod_item_detalle_accesorio_cotizacion_tpl.html');
+        $template = str_replace('{dialog_form}', $form_dialogo_anadir_accesorio.$form_dialog_consulta_accesorio.$form_dialog_confirm.$form_nuevo_item_tpl.$form_cotizacion_priv.$form_det_cot_priv.$form_prod_det_cot_priv.$form_modif_cotizacion.$form_cotizacion_publ.$form_cliente_publ.$form_cliente_priv.$form_modif_cotizacion_publ.$form_dialog_tpl, $template);
         $home= new Home();
         $tipo_compra=$home->getTipoCompra();
         //print_r($tipo_compra);

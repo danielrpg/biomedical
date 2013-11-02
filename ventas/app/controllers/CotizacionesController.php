@@ -19,6 +19,7 @@ class CotizacionesController {
      */
     public function runIndex($tp){
         $home_model = new Home();
+        //echo "ssssssssssssssssssss";
         switch ($tp) {
             case "buscarClientes":
               //echo($_GET['cliente_buscar']);
@@ -761,6 +762,9 @@ class CotizacionesController {
           case 'registrarNuevaProducto':
                $home_model->registrarNuevoProducto($_POST);
             break;
+          case 'registrarNuevaProductoAccesorio':
+               $home_model->registrarNuevoProductoAccesorio($_POST);
+            break;
           case 'eliminarDetProfVenta':
                 $home_model->eliminarDetaProfVenta($_GET);
             break;
@@ -776,6 +780,17 @@ class CotizacionesController {
             break;
           case 'updatePrecioCantProd':
                 $home_model->setNuevaCantidadPrecio($_GET);
+            break;
+          case 'listaAccesoriosProducto':
+                $productos = $home_model->listarProductosStock();
+                $cont = 0 ;
+                foreach ($productos as $key => $value) {
+                 // print_r($value);
+                  $json_data[$cont] = array_merge($value['apc'],$value[0], $value['apd']);
+                  $cont++;
+
+                }
+                print(json_encode($json_data));
             break;
         }
     }

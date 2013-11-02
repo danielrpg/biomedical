@@ -13,6 +13,7 @@ class Home {
      */
     public function __construct() {
         $this->mysql = new Mysql();
+        //$config = $this->mysql->getDefaultConfig();
     }
 
       /**
@@ -727,11 +728,11 @@ class Home {
     * Metodo que permite obtener la informacion del producto
     */
   public function getProductoInformation($codigo_cab, $codigo_det){
-    $query = 'SELECT apc.alm_prod_cab_id_unico_prod, apd.alm_prod_det_id_unico, apc.alm_prod_cab_codigo, alm_prod_cab_cod_ref, alm_prod_cab_prov,(SELECT alm_prov_nombre FROM alm_proveedor WHERE alm_prov_codigo_int=alm_prod_cab_prov) AS alm_prod_cab_prov_nombre, alm_prod_cab_nombre, alm_prod_cab_descripcion
+    $query = 'SELECT apc.alm_prod_cab_id_unico_prod, apd.alm_prod_det_id_unico, apc.alm_prod_cab_codigo, alm_prod_cab_cod_ref, alm_prod_cab_prov,(SELECT alm_prov_nombre FROM alm_proveedor WHERE alm_prov_codigo_int=alm_prod_cab_prov) AS alm_prod_cab_prov_nombre, alm_prod_cab_nombre, alm_prod_cab_descripcion,
                      alm_prod_cab_unidad, alm_prod_cab_presentacion, alm_prod_cab_moneda,(SELECT GRAL_PAR_INT_SIGLA FROM gral_param_super_int WHERE GRAL_PAR_INT_GRP=18 AND GRAL_PAR_INT_COD<>0 AND apc.alm_prod_cab_moneda=GRAL_PAR_INT_COD) AS alm_prod_cab_sigla, alm_prod_cab_img, 
                      alm_prod_cab_suc_origen,(SELECT GRAL_AGENCIA_NOMBRE FROM gral_agencia WHERE GRAL_AGENCIA_CODIGO = apc.alm_prod_cab_suc_origen) AS alm_prod_cab_suc_nombre, alm_prod_det_marca, alm_prod_det_cantidad, alm_prod_det_prec_compra, alm_prod_det_prec_venta, alm_prod_det_prec_max_venta, alm_prod_det_prec_min_venta
               FROM alm_prod_cabecera AS apc INNER JOIN alm_prod_detalle AS apd ON apc.alm_prod_cab_id_unico_prod=apd.alm_prod_cab_codigo 
-              WHERE ISNULL(apc.alm_prod_cab_usr_baja) AND ISNULL(apd.alm_prod_det_usr_baja)  AND apc.alm_prod_cab_id_unico_prod="'.$codigo_cab.'" AND apd.alm_prod_det_id_unico="'.$codigo_det.'"';
+              WHERE ISNULL(apc.alm_prod_cab_usr_baja) AND ISNULL(apd.alm_prod_det_usr_baja)  AND apc.alm_prod_cab_id_unico_prod="'.$codigo_cab.'" AND apd.alm_prod_det_id_unico="'.$codigo_det.'" LIMIT 1';
     //print_r($query);
     return $this->mysql->query($query);
   }
@@ -768,7 +769,35 @@ class Home {
     $valor['vent_prof_det_porc_serv_prof'] = $datos['input_vent_porcentaje_por_servicio'];
     $valor['vent_prof_det_esp_tecn'] = $datos['txt_area_vent_especificacion_tecnica'];
     $valor['vent_prof_det_conf_des'] = $datos['txt_area_vent_conf_deseada'];
-    $valor['vent_prof_det_acces'] = $datos['txt_area_vent_detalle_accesorios'];
+    $valor['vent_prof_det_acces'] = "";
+    $valor['vent_prof_det_usr_alta'] = $_SESSION['login'];
+    if($this->mysql->insert('vent_prof_det', $valor)){
+        $json_res['completo'] = true;
+    }else{
+        $json_res['completo'] = false;
+    }
+    print_r(json_encode($json_res));
+  }
+
+  /** Este es el metodo que ingresa un accesorio **/
+  public function registrarNuevaProductoAccesorio($datos){
+    $valor['vent_prof_cab_cod_unico'] = $datos['id_cab_prof_venta_codigo_unico'];
+    $valor['vent_prof_det_cod_unico'] = uniqid('INTER_PROF_DET_');
+    $valor['vent_prof_det_cod_proveedor'] = $datos['id_codigo_proveedor'];
+    $valor['vent_prof_prod_cod_unico'] = $datos['txt_vent_codigo_unico'];
+    $valor['vent_prof_det_tipo_prod'] = $datos['id_codigo_tipo_prod'];
+    $valor['vent_prof_det_estado_prod'] = 1;
+    $valor['vent_prof_det_cant_prod'] = $datos['txt_vent_item_cant_prod'];
+    $valor['vent_prof_det_precio_venta'] = $datos['txt_vent_precio_venta_form_item'];
+    $valor['vent_prof_det_tipo_mon'] = $datos['id_codigo_tipo_moneda'];
+    $valor['vent_prof_det_marca_prod'] = $datos['id_marca_prod_item'];
+    $valor['venta_prof_det_proced_prod'] = $datos['id_sucursal_origen_item'];
+    $valor['vent_prof_det_tiempo_esp_prod'] = $datos['txt_vent_tiempo_espera'];
+    $valor['vent_prof_det_serv_prof'] = $datos['select_vent_servicio_producto_item'];
+    $valor['vent_prof_det_porc_serv_prof'] = $datos['input_vent_porcentaje_por_servicio'];
+    $valor['vent_prof_det_esp_tecn'] = $datos['txt_area_vent_especificacion_tecnica'];
+    $valor['vent_prof_det_conf_des'] = $datos['txt_area_vent_conf_deseada'];
+    $valor['vent_prof_det_acces'] = "";
     $valor['vent_prof_det_usr_alta'] = $_SESSION['login'];
     if($this->mysql->insert('vent_prof_det', $valor)){
         $json_res['completo'] = true;
@@ -816,6 +845,8 @@ class Home {
     }
     print_r(json_encode($json_res));
   }
+
+  
 }
 
 ?>

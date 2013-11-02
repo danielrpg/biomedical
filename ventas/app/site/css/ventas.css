@@ -37,7 +37,7 @@
 #buscar_cliente{
 	right: 0px;
 }
-#txt_campo_palabra_buscar{
+#txt_campo_palabra_buscar,#txt_campo_palabra_buscar_accesorio{
 	width: 350px;
 	height: 30px;
 }
